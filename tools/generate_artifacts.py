@@ -1,20 +1,22 @@
 from __future__ import annotations
 
-import json
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 import matplotlib.pyplot as plt
 from pptx import Presentation
-from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches, Pt
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import cm
-from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer
 
 from main import run_all
 
-ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 
 
@@ -102,7 +104,14 @@ def _make_pptx(summary: dict) -> None:
 
 def _make_pdf(summary: dict) -> None:
     path = ROOT / "presentation_marchand_ambulant.pdf"
-    doc = SimpleDocTemplate(str(path), pagesize=landscape(A4), rightMargin=1.5 * cm, leftMargin=1.5 * cm, topMargin=1.2 * cm, bottomMargin=1.2 * cm)
+    doc = SimpleDocTemplate(
+        str(path),
+        pagesize=landscape(A4),
+        rightMargin=1.5 * cm,
+        leftMargin=1.5 * cm,
+        topMargin=1.2 * cm,
+        bottomMargin=1.2 * cm,
+    )
     styles = getSampleStyleSheet()
     story = []
     content = [
@@ -118,7 +127,7 @@ def _make_pdf(summary: dict) -> None:
         story.append(Paragraph(title, styles["Title"]))
         story.append(Spacer(1, 0.5 * cm))
         for bullet in bullets:
-            story.append(Paragraph(f"• {bullet}", styles["Heading2"]))
+            story.append(Paragraph(f"- {bullet}", styles["Heading2"]))
             story.append(Spacer(1, 0.25 * cm))
         if i != len(content) - 1:
             story.append(PageBreak())
