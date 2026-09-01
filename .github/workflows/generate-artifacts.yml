@@ -43,3 +43,5 @@ jobs:
             git commit -m "Generate result assets and presentation [skip artifacts]"
             git push
           fi
+
+# Generated files are committed back to main so the repository remains self-contained.
