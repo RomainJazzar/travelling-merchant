@@ -1,0 +1,45 @@
+name: Generate project artifacts
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'presentation_marchand_ambulant.pptx'
+      - 'presentation_marchand_ambulant.pdf'
+      - 'results/*.png'
+      - 'results/*.html'
+      - 'results/*.csv'
+      - 'results/*.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: "!contains(github.event.head_commit.message, '[skip artifacts]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Generate results, charts and presentation
+        run: python tools/generate_artifacts.py
+      - name: Commit generated artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results presentation_marchand_ambulant.pptx presentation_marchand_ambulant.pdf
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+          else
+            git commit -m "Generate result assets and presentation [skip artifacts]"
+            git push
+          fi
