@@ -2,7 +2,7 @@
   "cities": 20,
   "christofides": {
     "distance_km": 3445.6046874668837,
-    "execution_seconds": 0.002774023000000625,
+    "execution_seconds": 0.0016706539999802317,
     "mst_weight_km": 2665.0523524551186,
     "matching_weight_km": 1142.0296435390037,
     "odd_vertices_count": 12,
@@ -32,8 +32,8 @@
   },
   "genetic": {
     "distance_km": 3157.1272059488033,
-    "best_single_run_seconds": 1.1572643089999985,
-    "total_three_runs_seconds": 3.452745734000004,
+    "best_single_run_seconds": 0.6852233189999879,
+    "total_three_runs_seconds": 2.080002425999993,
     "chosen_configuration": "equilibree",
     "configuration": {
       "population_size": 160,
@@ -68,7 +68,7 @@
       "Paris"
     ]
   },
-  "benchmark_seconds": 12.511167788999998,
+  "benchmark_seconds": 7.5797858740000095,
   "benchmark": [
     {
       "configuration": "rapide",
